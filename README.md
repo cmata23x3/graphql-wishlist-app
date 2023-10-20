@@ -10,6 +10,23 @@ First, run the development server:
 npm run dev
 ```
 
+## Development
+
+In order to generate Nexus types and GraphQL schema, run
+```bash
+npm run generate:nexus
+```
+
+In order to generate GraphQL types used in the frontend, run
+```bash
+npm run generate:genql
+```
+
+Useful to run both commands at the same time, run
+```bash
+npm run generate
+```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
