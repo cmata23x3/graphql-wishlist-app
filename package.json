@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate:nexus": "nodemon --exec 'ts-node --transpile-only -P nexus.tsconfig.json src/pages/api/graphql' --ext 'ts' --watch '*/graphql/**/*.ts'",
+    "generate:genql": "nodemon --exec 'genql --schema ./graphql/schema.graphql --output ./graphql/generated/genql'  --watch 'graphql/schema.graphql'" 
   },
   "dependencies": {
     "@prisma/client": "^5.4.2",
