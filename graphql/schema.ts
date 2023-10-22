@@ -1,4 +1,4 @@
-import { asNexusMethod, makeSchema, queryType, mutationType, objectType, enumType, arg, nonNull, stringArg } from "nexus";
+import { asNexusMethod, makeSchema, queryType, mutationType, objectType, enumType, arg, nonNull, stringArg, idArg } from "nexus";
 import * as path from 'path';
 import { DateTimeResolver } from "graphql-scalars";
 
@@ -17,6 +17,7 @@ const Item = objectType({
         t.string('description'),
         t.string('url'),
         t.string('imageUrl'),
+
         t.field('createdAt', { type: 'DateTime'}),
         t.field('updatedAt', { type: 'DateTime' })
     }
@@ -27,10 +28,10 @@ const Query = queryType({
         t.list.field('getItems', {
             type: 'Item',
             args: {
-                sortBy: arg({type: 'SortOrder'}),
+                sortBy: arg({ type: 'SortOrder' }),
             },
             resolve: async (_, args, ctx) => {
-                return ctx.db.item.findMany({
+                return await ctx.db.item.findMany({
                     orderBy: { createdAt: args.sortBy || undefined }
                 })
             }
@@ -54,12 +55,77 @@ const Query = queryType({
 
 const Mutation = mutationType({
     definition(t) {
+        t.field('createItem', {
+            type: 'Item',
+            args: {
+                title: nonNull(stringArg()),
+                description: stringArg(),
+                url: stringArg(),
+                imageUrl: stringArg(),
+            },
+            resolve: (_, args, ctx) => {
+                try {
+                    return ctx.db.item.create({
+                        data: {
+                            title: args.title,
+                            description: args.description || undefined,
+                            url: args.url || undefined,
+                            imageUrl: args.imageUrl || undefined,
+                        }
+                    })
+                } catch (error) {
+                    throw Error(`${error}`)
+                }
+            }
+        })
 
+        t.field('updateItem', {
+            type: 'Item',
+            args: {
+                id: nonNull(idArg()),
+                title: stringArg(),
+                description: stringArg(),
+                url: stringArg(),
+                imageUrl: stringArg(),
+            },
+            resolve: (_, args, ctx) => {
+                try {
+                    return ctx.db.item.update({
+                        where: { id: args.id },
+                        data: {
+                            title: args.title || undefined,
+                            description: args.description || undefined,
+                            url: args.url || undefined,
+                            imageUrl: args.imageUrl || undefined,
+                        }
+                    })
+                } catch (error) {
+                    throw Error(`${error}`)
+                }
+            }
+        })
+
+        t.field('deleteItem', {
+            type: 'Item',
+            args: {
+                id: nonNull(idArg())
+            },
+            resolve: (_, args, ctx) => {
+                try {
+                    return ctx.db.item.delete({
+                        where: { id: args.id }
+                    })
+                } catch (error) {
+                    throw Error(`${error}`)
+                }
+            }
+        })
     },
 })
 
 export const schema = makeSchema({
-    types: [Query, Mutation, DateTime, Item, SortOrder],
+    // types: [Query, Mutation, DateTime, Item, SortOrder],
+    types: [DateTime, Item, SortOrder, Query],
     outputs: {
         schema: path.join(process.cwd(), 'graphql/schema.graphql'),
         typegen: path.join(process.cwd(), 'graphql/generated/nexus.d.ts'),
