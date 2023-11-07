@@ -124,8 +124,7 @@ const Mutation = mutationType({
 })
 
 export const schema = makeSchema({
-    // types: [Query, Mutation, DateTime, Item, SortOrder],
-    types: [DateTime, Item, SortOrder, Query],
+    types: [DateTime, Item, SortOrder, Query, Mutation],
     outputs: {
         schema: path.join(process.cwd(), 'graphql/schema.graphql'),
         typegen: path.join(process.cwd(), 'graphql/generated/nexus.d.ts'),
