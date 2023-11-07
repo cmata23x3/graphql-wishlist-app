@@ -18,20 +18,20 @@ export default function Home() {
 
   return (
     <div>
-      <h1>Wishlist Website</h1>
+      <h1 className="text-4xl font-bold underline m-6">Wishlist Website</h1>
       {error && <p>Oops, something went wrong!</p>}
-      <ul>
+      <ul className="grid grid-flow-row grid-cols-1 md:grid-cols-2 gap-4 m-6">
         {data?.getItems && data.getItems.map((item) => {
           if (!item) return 
-          const listItem = <li key={item.id}>
+          const listItem = <li key={item.id} className="p-4 border-2 rounded-md border-blue-200">
             <Link href={`/item/${item.id}`}>
               {item.imageUrl ?
-                <img src={item.imageUrl} height="640" width="640" /> :
-                <img src="https://seetruetechnology.com/wp-content/uploads/2022/02/BG-7.jpg" height="640" width="640" />
+                <img src={item.imageUrl} /> :
+                <img src="https://seetruetechnology.com/wp-content/uploads/2022/02/BG-7.jpg" />
               }
-              <h2>{item.title}</h2>
-              <p>{item.description ? item.description : "No item description available"}</p>
-              <p>Created At: {new Date(item.createdAt).toDateString()}</p>
+              <h2 className="text-slate-950 text-2xl font-medium py-1 md:py-4">{item.title}</h2>
+              <p className="text-slate-700">{item.description ? item.description : "No item description available"}</p>
+              <p className="text-slate-700">Added At: {new Date(item.createdAt).toDateString()}</p>
             </Link>
           </li>
           return listItem
