@@ -18,7 +18,14 @@ export default function Home() {
 
   return (
     <div>
-      <h1 className="text-4xl font-bold underline m-6">Wishlist Website</h1>
+        <div className="grid grid-flow-row grid-cols-2 m-6">
+            <h1 className="text-4xl font-bold underline">Wishlist Website</h1>
+            <div className="flex justify-end items-center">
+                <Link className="" href={"/create"}>
+                    <button className="rounded bg-blue-600 px-3 py-2 text-sm text-white shadow-sm hover:bg-blue-500 focus-visible:outline">+ Create</button>
+                </Link>
+            </div>
+        </div>
       {error && <p>Oops, something went wrong!</p>}
       <ul className="grid grid-flow-row grid-cols-1 md:grid-cols-2 gap-4 m-6">
         {data?.getItems && data.getItems.map((item) => {

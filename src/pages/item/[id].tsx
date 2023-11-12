@@ -25,12 +25,12 @@ export default function Item() {
     return (
         <div className="py-4 px-6 max-w-xl">
             <Link href="/">
-                <span>&#8592; Back</span>
+                <button className="rounded bg-blue-600 px-3 py-2 text-sm text-white shadow-sm hover:bg-blue-500 focus-visible:outline">&#8592; Back</button>
             </Link>
             {error && <p>Oops, something went wrong!</p>}
             {data?.getOneItem && (
-                <div className="mx-auto grid grid-cols-1 gap-2 px-6 py-4 border-2 rounded-md border-blue-200">
-                    <h1 className="text-slate-950 text-2xl font-medium py-1 md:py-4">{data.getOneItem.title}</h1>
+                <div className="mx-auto grid grid-cols-1 gap-2 px-6 py-4">
+                    <h1 className="text-slate-950 text-3xl font-medium py-1 md:py-4">{data.getOneItem.title}</h1>
                     {data.getOneItem.imageUrl ?
                         <img className="md:self-center" src={data.getOneItem.imageUrl} /> :
                         <img src="https://seetruetechnology.com/wp-content/uploads/2022/02/BG-7.jpg" />
