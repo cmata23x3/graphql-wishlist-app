@@ -7,6 +7,19 @@ export default function Item() {
     const router = useRouter()
     const { id } = router.query
 
+    const deleteItem = async (id: string) => {
+        await client.mutation({
+            deleteItem: {
+                __args: { id },
+                id: true,
+                title: true
+            }
+        }).then((res) => {
+            console.log(res)
+            router.push('/')
+        })
+    }
+
     const fetcher = async (id: string) => client.query({
         getOneItem:
             {
@@ -45,6 +58,9 @@ export default function Item() {
                         <div>
                             <em>Added at: {new Date(data.getOneItem.createdAt).toDateString()}</em>
                         </div>
+                        <button className="rounded bg-red-600 px-3 py-2 mt-5 text-sm text-white shadow-sm hover:bg-red-400 focus-visible:outline" onClick={(e) => deleteItem(data.getOneItem.id)}>
+                            Delete
+                        </button>
                     </div>
                 </div>
             )}
